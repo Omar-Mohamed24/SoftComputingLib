@@ -1,0 +1,33 @@
+# Java compiled files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Log files
+*.log
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.metadata
+bin/
+out/
+
+# Build tools
+target/
+build/
+.gradle/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*~
