@@ -6,4 +6,5 @@ import GA.chromosome.Chromosome;
  * Implementations should define how to calculate the fitness value for a given chromosome.
  */
 public interface FitnessFunction<T extends Chromosome> {
+    double evaluateFitness(T chromosome);
 }

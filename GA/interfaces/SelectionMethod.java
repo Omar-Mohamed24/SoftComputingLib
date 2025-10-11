@@ -1,4 +1,5 @@
 package GA.interfaces;
+import java.util.List;
 import GA.chromosome.Chromosome;
 
 /**
@@ -6,4 +7,5 @@ import GA.chromosome.Chromosome;
  * Implementations define how parents are selected for reproduction.
  */
 public interface SelectionMethod<T extends Chromosome> {
+    List<T> select(List<T> population, double[] fitnessValues, int numberOfParents);
 }

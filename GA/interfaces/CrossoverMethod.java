@@ -1,4 +1,5 @@
 package GA.interfaces;
+import java.util.List;
 import GA.chromosome.Chromosome;
 
 /**
@@ -6,5 +7,5 @@ import GA.chromosome.Chromosome;
  * Implementations define how to combine parent chromosomes to create offspring.
  */
 public interface CrossoverMethod<T extends Chromosome> {
-    
+    List<T> crossover(T parent1, T parent2);
 }

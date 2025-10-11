@@ -6,4 +6,5 @@ import GA.chromosome.Chromosome;
  * Implementations define how to mutate chromosomes to introduce variation.
  */
 public interface MutationMethod<T extends Chromosome> {
+    T mutate(T chromosome);
 }
