@@ -13,7 +13,7 @@ public class NPointCrossover implements CrossoverMethod {
     private final Random random = new Random();
 
     public NPointCrossover() {
-        numberOfPoints = 1;
+        this.numberOfPoints = 1;
     }
 
     public NPointCrossover(int numberOfPoints) {
