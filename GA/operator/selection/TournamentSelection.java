@@ -1,5 +1,10 @@
 package GA.operator.selection;
 
+/*
+ * Implements Tournament selection.
+ * Best fitness chromosome is selected from a fixed number of individuals (tournament) chosen randomly.
+ */
+
 import GA.chromosome.Chromosome;
 
 import java.util.ArrayList;
@@ -26,6 +31,11 @@ public class TournamentSelection implements SelectionMethod {
 
     @Override
     public List<Chromosome> select(List<Chromosome> population, int numberOfParents) {
+        if(population == null || population.isEmpty())
+            throw new IllegalArgumentException("Population can't be null or empty!");
+        if(numberOfParents <= 0)
+            throw new IllegalArgumentException("Number of parents must be positive!");
+
         List<Chromosome> selectedParents = new ArrayList<>();
 
         for (int i = 0; i < numberOfParents; i++) {
@@ -36,7 +46,7 @@ public class TournamentSelection implements SelectionMethod {
             }
 
             Chromosome winner = null;
-            double bestFitness = -1.0;
+            double bestFitness = Double.NEGATIVE_INFINITY;
             for (Chromosome contestant : tournamentContestants) {
                 if (winner == null || contestant.getFitness() > bestFitness) {
                     bestFitness = contestant.getFitness();

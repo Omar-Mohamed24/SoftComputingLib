@@ -1,6 +1,13 @@
 package GA.operator.selection;
 
+/*
+ * Implements Roulette Wheel (fitness-proportionate) selection.
+ * Each chromosome's selection probability is proportional to its fitness.
+ * Uses binary search for O(log n) selection.
+ */
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import GA.chromosome.Chromosome;
@@ -11,6 +18,11 @@ public class RouletteWheelSelection implements SelectionMethod {
 
     @Override
     public List<Chromosome> select(List<Chromosome> population, int numberOfParents) {
+        if(population == null || population.isEmpty())
+            throw new IllegalArgumentException("Population can't be null or empty!");
+        if(numberOfParents <= 0)
+            throw new IllegalArgumentException("Number of parents must be positive!");
+
         List<Chromosome> selectedParents = new ArrayList<>();
 
         double totalFitness = 0;
@@ -27,20 +39,16 @@ public class RouletteWheelSelection implements SelectionMethod {
             return selectedParents;
         }
 
-        double[] cumulativeFitness = new double[population.size()];
-        cumulativeFitness[0] = population.get(0).getFitness();
-        for (int i = 1; i < population.size(); i++) {
-            cumulativeFitness[i] = cumulativeFitness[i - 1] + population.get(i).getFitness();
+        double[] cumulativeProbabilities = new double[population.size()];
+        for(int i = 0;i < population.size();i++) {
+            cumulativeProbabilities[i] = (population.get(i).getFitness() / totalFitness) + (i == 0 ? 0 : cumulativeProbabilities[i - 1]);
         }
 
-        for (int i = 0; i < numberOfParents; i++) {
-            double randomPointer = random.nextDouble() * totalFitness;
-            for (int j = 0; j < population.size(); j++) {
-                if (randomPointer <= cumulativeFitness[j]) {
-                    selectedParents.add(population.get(j).clone());
-                    break;
-                }
-            }
+        for (int p = 0;p < numberOfParents;p++) {
+            double r = random.nextDouble();
+            int index = Arrays.binarySearch(cumulativeProbabilities, r);
+            if(index < 0) index = -index - 1;
+            selectedParents.add(population.get(index));
         }
 
         return selectedParents;

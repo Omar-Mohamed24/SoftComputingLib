@@ -54,6 +54,7 @@ public abstract class Chromosome implements Cloneable {
         try {
             Chromosome cloned = (Chromosome) super.clone();
             cloned.genes = this.genes.clone();
+            cloned.fitness = this.fitness;
             return cloned;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("CloneNotSupportedException thrown from a Cloneable class.", e);
