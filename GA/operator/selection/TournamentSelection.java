@@ -1,5 +1,10 @@
 package GA.operator.selection;
 
+/*
+ * Implements Tournament selection.
+ * Best fitness chromosome is selected from a fixed number of individuals (tournament) chosen randomly.
+ */
+
 import GA.chromosome.Chromosome;
 import GA.interfaces.SelectionMethod;
 
