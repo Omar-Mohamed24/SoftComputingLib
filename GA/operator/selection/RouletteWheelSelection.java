@@ -1,50 +1,46 @@
 package GA.operator.selection;
 
-/*
- * Implements Roulette Wheel (fitness-proportionate) selection.
- * Each chromosome's selection probability is proportional to its fitness.
- * Uses binary search for O(log n) selection.
- */
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import GA.chromosome.Chromosome;
 import GA.interfaces.SelectionMethod;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
-public class RouletteWheelSelection<T extends Chromosome> implements SelectionMethod<T> {
-
+public class RouletteWheelSelection implements SelectionMethod {
     private final Random random = new Random();
 
     @Override
-    public List<T> select(List<T> population, double[] fitnessValues, int numberOfParents) {
-        if(population == null || population.isEmpty())
-            throw new IllegalArgumentException("Population can't be null or empty!");
-        if(fitnessValues.length != population.size())
-            throw new IllegalArgumentException("Fitness array length must match population size.");
-        if(numberOfParents <= 0)
-            throw new IllegalArgumentException("Number of parents must be positive!");
+    public List<Chromosome> select(List<Chromosome> population, int numberOfParents) {
+        List<Chromosome> selectedParents = new ArrayList<>();
 
-        double totalFitness = 0.0;
-        for(double fitness : fitnessValues)
-            totalFitness += fitness;
-
-        if(totalFitness <= 0)
-            throw new IllegalArgumentException("Total fitness must be positive!");
-
-        double[] cumulativeProbabilities = new double[population.size()];
-        for(int i = 0;i < population.size();i++) {
-            cumulativeProbabilities[i] = (fitnessValues[i] / totalFitness) + (i == 0 ? 0 : cumulativeProbabilities[i - 1]);
+        double totalFitness = 0;
+        for (Chromosome chromosome : population) {
+            totalFitness += chromosome.getFitness();
         }
 
-        List<T> selectedParents = new ArrayList<>();
-        for (int p = 0;p < numberOfParents;p++) {
-            double r = random.nextDouble();
-            int index = Arrays.binarySearch(cumulativeProbabilities, r);
-            if(index < 0) index = -index - 1;
-            selectedParents.add(population.get(index));
+        if (totalFitness == 0) {
+            for (int i = 0; i < numberOfParents; i++) {
+                Chromosome randomParent = population.get(random.nextInt(population.size()));
+                Chromosome clonedParent = randomParent.clone();
+                selectedParents.add(clonedParent);
+            }
+            return selectedParents;
+        }
+
+        double[] cumulativeFitness = new double[population.size()];
+        cumulativeFitness[0] = population.get(0).getFitness();
+        for (int i = 1; i < population.size(); i++) {
+            cumulativeFitness[i] = cumulativeFitness[i - 1] + population.get(i).getFitness();
+        }
+
+        for (int i = 0; i < numberOfParents; i++) {
+            double randomPointer = random.nextDouble() * totalFitness;
+            for (int j = 0; j < population.size(); j++) {
+                if (randomPointer <= cumulativeFitness[j]) {
+                    selectedParents.add(population.get(j).clone());
+                    break;
+                }
+            }
         }
 
         return selectedParents;
