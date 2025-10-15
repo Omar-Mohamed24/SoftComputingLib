@@ -48,7 +48,7 @@ public class RouletteWheelSelection implements SelectionMethod {
             double r = random.nextDouble();
             int index = Arrays.binarySearch(cumulativeProbabilities, r);
             if(index < 0) index = -index - 1;
-            selectedParents.add(population.get(index));
+            selectedParents.add(population.get(index).clone());
         }
 
         return selectedParents;
