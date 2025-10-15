@@ -6,6 +6,6 @@ import GA.chromosome.Chromosome;
  * Interface for crossover strategies.
  * Implementations define how to combine parent chromosomes to create offspring.
  */
-public interface CrossoverMethod<T extends Chromosome> {
+public interface CrossoverMethod {
     List<T> crossover(T parent1, T parent2);
 }
