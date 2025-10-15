@@ -21,4 +21,12 @@ public class IntegerChromosome extends Chromosome {
             genes[i] = random.nextInt((maxValue - minValue) + 1) + minValue;
         }
     }
+
+    public int getMin() {
+        return minValue;
+    }
+
+    public int getMax() {
+        return maxValue;
+    }
 }

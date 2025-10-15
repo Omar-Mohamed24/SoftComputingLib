@@ -21,4 +21,12 @@ public class FloatChromosome extends Chromosome {
             genes[i] = minValue + (maxValue - minValue) * random.nextDouble();
         }
     }
+
+    public double getMin() {
+        return minValue;
+    }
+
+    public double getMax() {
+        return maxValue;
+    }
 }
