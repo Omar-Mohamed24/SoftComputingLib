@@ -1,58 +1,106 @@
 package GA.operator.selection;
 
-/*
- * Implements Tournament selection.
- * Best fitness chromosome is selected from a fixed number of individuals (tournament) chosen randomly.
- */
-
 import GA.chromosome.Chromosome;
-import GA.interfaces.SelectionMethod;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TournamentSelection<T extends Chromosome> implements SelectionMethod<T> {
+import GA.interfaces.SelectionMethod;
 
-    private final int tournamentSize;
+public class TournamentSelection implements SelectionMethod {
+
     private final Random random = new Random();
+    private final int tournamentSize;
 
-    public TournamentSelection(int tournamentSize) {
-            if(tournamentSize <= 0)
-                throw new IllegalArgumentException("Tournament size must be positive!");
-            this.tournamentSize = tournamentSize;
+    public TournamentSelection() {
+        this.tournamentSize = 2;
     }
 
-    private T runTournament(List<T> population, double[] fitnessValues) {
-        T best = null;
-        double bestFitness = Double.NEGATIVE_INFINITY;
-
-        for(int i = 0;i < tournamentSize;i++) {
-            int index = random.nextInt(population.size());
-            double fitness = fitnessValues[index];
-            if(fitness > bestFitness) {
-                best = population.get(index);
-                bestFitness = fitness;
-            }
+    public TournamentSelection(int tournamentSize) {
+        if (tournamentSize < 1) {
+            throw new IllegalArgumentException("Tournament size must be at least 1.");
         }
-
-        return best;
+        this.tournamentSize = tournamentSize;
     }
 
     @Override
-    public List<T> select(List<T> population, double[] fitnessValues, int numberOfParents) {
-        if(population == null || population.isEmpty())
-            throw new IllegalArgumentException("Population can't be null or empty!");
-        if(fitnessValues.length != population.size())
-            throw new IllegalArgumentException("Fitness array length must match population size.");
-        if(numberOfParents <= 0)
-            throw new IllegalArgumentException("Number of parents must be positive!");
+    public List<Chromosome> select(List<Chromosome> population, int numberOfParents) {
+        List<Chromosome> selectedParents = new ArrayList<>();
 
-        List<T> selectedParents = new ArrayList<>();
+        for (int i = 0; i < numberOfParents; i++) {
+            List<Chromosome> tournamentContestants = new ArrayList<>();
+            for (int j = 0; j < tournamentSize; j++) {
+                int randomIndex = random.nextInt(population.size());
+                tournamentContestants.add(population.get(randomIndex));
+            }
 
-        for(int i = 0;i < numberOfParents;i++) {
-            T winner = runTournament(population, fitnessValues);
-            selectedParents.add(winner);
+            Chromosome winner = null;
+            double bestFitness = -1.0;
+            for (Chromosome contestant : tournamentContestants) {
+                if (winner == null || contestant.getFitness() > bestFitness) {
+                    bestFitness = contestant.getFitness();
+                    winner = contestant;
+                }
+            }
+
+            if (winner != null) {
+                selectedParents.add(winner.clone());
+            }
+        }
+
+        return selectedParents;
+    }
+}
+package GA.operator.selection;
+
+import GA.chromosome.Chromosome;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import GA.interfaces.SelectionMethod;
+
+public class TournamentSelection implements SelectionMethod {
+
+    private final Random random = new Random();
+    private final int tournamentSize;
+
+    public TournamentSelection() {
+        this.tournamentSize = 2;
+    }
+
+    public TournamentSelection(int tournamentSize) {
+        if (tournamentSize < 1) {
+            throw new IllegalArgumentException("Tournament size must be at least 1.");
+        }
+        this.tournamentSize = tournamentSize;
+    }
+
+    @Override
+    public List<Chromosome> select(List<Chromosome> population, int numberOfParents) {
+        List<Chromosome> selectedParents = new ArrayList<>();
+
+        for (int i = 0; i < numberOfParents; i++) {
+            List<Chromosome> tournamentContestants = new ArrayList<>();
+            for (int j = 0; j < tournamentSize; j++) {
+                int randomIndex = random.nextInt(population.size());
+                tournamentContestants.add(population.get(randomIndex));
+            }
+
+            Chromosome winner = null;
+            double bestFitness = -1.0;
+            for (Chromosome contestant : tournamentContestants) {
+                if (winner == null || contestant.getFitness() > bestFitness) {
+                    bestFitness = contestant.getFitness();
+                    winner = contestant;
+                }
+            }
+
+            if (winner != null) {
+                selectedParents.add(winner.clone());
+            }
         }
 
         return selectedParents;
