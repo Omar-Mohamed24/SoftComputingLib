@@ -6,6 +6,6 @@ import GA.chromosome.Chromosome;
  * Implementations should define how to detect and handle infeasible chromosomes.
  */
 public interface InfeasibilityHandler {
-    boolean isFeasible(T chromosome);
-    T repair(T chromosome);
+    boolean isFeasible(Chromosome chromosome);
+    Chromosome repair(Chromosome chromosome);
 }

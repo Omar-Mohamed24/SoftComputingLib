@@ -7,5 +7,5 @@ import GA.chromosome.Chromosome;
  * Implementations define how parents are selected for reproduction.
  */
 public interface SelectionMethod {
-    List<T> select(List<T> population, int numberOfParents);
+    List<Chromosome> select(List<Chromosome> population, int numberOfParents);
 }

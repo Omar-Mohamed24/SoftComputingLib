@@ -7,5 +7,5 @@ import GA.chromosome.Chromosome;
  * Implementations define how to combine parent chromosomes to create offspring.
  */
 public interface CrossoverMethod {
-    List<T> crossover(T parent1, T parent2);
+    List<Chromosome> crossover(Chromosome parent1, Chromosome parent2);
 }

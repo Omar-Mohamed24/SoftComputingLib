@@ -7,5 +7,5 @@ import GA.chromosome.Chromosome;
  * Implementations define how to replace individuals in the population with offspring.
  */
 public interface ReplacementStrategy {
-    List<T> replace(List<T> currentPopulation, List<T> offspring, double[] fitnessValues, double[] offspringFitness);
+    List<Chromosome> replace(List<Chromosome> currentPopulation, List<Chromosome> offspring, double[] fitnessValues, double[] offspringFitness);
 }
