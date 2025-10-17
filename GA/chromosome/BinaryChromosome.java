@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Represents solutions as arrays of 0s and 1s.
- * Each gene is a boolean value (true=1, false=0).
+ * Each gene is an integer value (0 or 1).
  */
 public class BinaryChromosome extends Chromosome {
     private static final Random random = new Random();
@@ -16,7 +16,7 @@ public class BinaryChromosome extends Chromosome {
     @Override
     public void initialize() {
         for (int i = 0; i < getLength(); i++) {
-            genes[i] = random.nextBoolean();
+            genes[i] = random.nextInt(2);
         }
     }
 }
