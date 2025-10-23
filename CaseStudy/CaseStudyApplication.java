@@ -2,20 +2,26 @@ package CaseStudy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import CaseStudy.NQueens.NQueenFitness;
+import CaseStudy.NQueens.NQueensInfeasibilityHandler;
 import CaseStudy.knapsack.Item;
 import CaseStudy.knapsack.KnapsackFitness;
 import CaseStudy.knapsack.KnapsackInfeasibilityHandler;
 import GA.GeneticAlgorithm;
 import GA.chromosome.Chromosome;
+import GA.operator.crossover.NPointCrossover;
+import GA.operator.crossover.OrderOneCrossover;
 import GA.operator.crossover.SinglePointCrossover;
 import GA.operator.mutation.BitFlipMutation;
+import GA.operator.mutation.SwapMutation;
+import GA.operator.mutation.UniformMutation;
 import GA.operator.replacement.ElitismReplacement;
 import GA.operator.selection.TournamentSelection;
 
 public class CaseStudyApplication {
-    public static void main(String[] args) {
-
+    public static void KnapsackApplication() {
         List<Item> items = new ArrayList<>();
         items.add(new Item("Laptop", 3, 2500));
         items.add(new Item("Camera", 2, 1500));
@@ -87,6 +93,67 @@ public class CaseStudyApplication {
         } else {
             System.out.println("No solution was found.");
         }
+    }
+
+    public static void NQueensApplication() {
+        System.out.println("=== N-Queens Problem ===");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter number of Queens (N): ");
+        int n = scanner.nextInt();
+
+        GeneticAlgorithm ga = new GeneticAlgorithm();
+        ga.setPopulationSize(100);
+        ga.setGenerations(150);
+        ga.setChromosomeLength(n);
+        ga.setChromosomeType("integer", 1, n);
+
+        ga.setFitnessFunction(new NQueenFitness());
+        ga.setInfeasibilityHandler(new NQueensInfeasibilityHandler(n));
+
+        ga.setSelectionMethod(new TournamentSelection());
+        ga.setCrossoverMethod(new OrderOneCrossover());
+        ga.setMutationMethod(new SwapMutation());
+        ga.setReplacementStrategy(new ElitismReplacement());
+        ga.setCrossoverRate(0.85);
+        ga.setMutationRate(0.10);
+
+        System.out.printf("--- Running GA to Solve the %d Queen Problem ---", n);
+        System.out.println("------------------------------------------------------");
+
+        ga.run();
+
+        Chromosome bestSolution = ga.getBestChromosome();
+        if (bestSolution != null) {
+            System.out.println("\n--- Best Solution Found ---");
+            System.out.println("Gene Sequence (Row Positions per Column): " + bestSolution);
+
+            NQueensInfeasibilityHandler handler = new NQueensInfeasibilityHandler(n);
+            boolean isFeasible = handler.isFeasible(bestSolution);
+            System.out.println("Solution is feasible: " + isFeasible);
+
+            if (!isFeasible) {
+                System.out.println("WARNING: The solution violates constraints (duplicate rows or short diagonal conflict).");
+                System.out.println("Attempting repair...");
+                Chromosome repaired = handler.repair(bestSolution);
+                System.out.println("Repaired Sequence: " + repaired);
+                if(handler.isFeasible(repaired)) {
+                    System.out.println("Repaired Solution is Feasible.");
+                } else {
+                    System.out.println("Repaired Solution is Not Feasible.");
+                }
+            }
+
+            System.out.println("Best Fitness Score: " + bestSolution.getFitness());
+            System.out.println("---------------------------");
+        } else {
+            System.out.println("No solution was found.");
+        }
+    }
+
+    public static void main(String[] args) {
+//        KnapsackApplication();
+        NQueensApplication();
     }
 }
 
