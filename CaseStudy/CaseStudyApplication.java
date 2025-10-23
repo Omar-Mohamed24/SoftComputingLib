@@ -146,10 +146,26 @@ public class CaseStudyApplication {
 
             System.out.println("Best Fitness Score: " + bestSolution.getFitness());
             System.out.println("---------------------------");
+
+            // Board Display
+            System.out.println("\n--- Board Visualization ---");
+            for (int i = 1; i <= n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int row = ((Number) bestSolution.getGene(j)).intValue();
+                    if (i == row) {
+                        System.out.print(" Q ");
+                    } else {
+                        System.out.print(" . ");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println("---------------------------\n");
         } else {
             System.out.println("No solution was found.");
         }
     }
+
 
     public static void main(String[] args) {
 //        KnapsackApplication();

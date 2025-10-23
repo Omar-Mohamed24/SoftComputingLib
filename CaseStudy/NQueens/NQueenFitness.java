@@ -16,6 +16,9 @@ public class NQueenFitness implements FitnessFunction {
             for (int j = i + 1; j < n; j++) {
                 int r1 = ((Number) chromosome.getGene(i)).intValue();
                 int r2 = ((Number) chromosome.getGene(j)).intValue();
+
+                // if(r1 == r2 || (Math.abs(r1 - r2) == Math.abs(i - j)) : for normal NQueens.
+                // Modified NQueens (attack row, col and one square diagonal instead of whole diagonal).
                 if (r1 == r2 || (Math.abs(r1 - r2) == 1 && Math.abs(i - j) == 1)) {
                     conflicts++;
                 }
