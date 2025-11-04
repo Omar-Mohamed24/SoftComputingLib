@@ -2,7 +2,6 @@ package CaseStudy.NQueens;
 
 import GA.chromosome.Chromosome;
 import GA.interfaces.FitnessFunction;
-import java.util.List;
 
 public class NQueenFitness implements FitnessFunction {
 

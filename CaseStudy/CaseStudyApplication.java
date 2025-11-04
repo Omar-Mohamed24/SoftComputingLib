@@ -11,12 +11,10 @@ import CaseStudy.knapsack.KnapsackFitness;
 import CaseStudy.knapsack.KnapsackInfeasibilityHandler;
 import GA.GeneticAlgorithm;
 import GA.chromosome.Chromosome;
-import GA.operator.crossover.NPointCrossover;
 import GA.operator.crossover.OrderOneCrossover;
 import GA.operator.crossover.SinglePointCrossover;
 import GA.operator.mutation.BitFlipMutation;
 import GA.operator.mutation.SwapMutation;
-import GA.operator.mutation.UniformMutation;
 import GA.operator.replacement.ElitismReplacement;
 import GA.operator.selection.TournamentSelection;
 
@@ -101,6 +99,7 @@ public class CaseStudyApplication {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter number of Queens (N): ");
         int n = scanner.nextInt();
+        scanner.close();
 
         GeneticAlgorithm ga = new GeneticAlgorithm();
         ga.setPopulationSize(100);
