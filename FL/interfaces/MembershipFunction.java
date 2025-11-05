@@ -1,5 +1,5 @@
 package FL.interfaces;
 
-public class MembershipFunction {
-    
+public interface MembershipFunction {
+    double getDegreeOfMembership(double crispValue);
 }
