@@ -1,5 +1,11 @@
 package FL.operators;
 
-public class Max_S_Norm {
-    
+import FL.interfaces.S_Norm;
+
+public class Max_S_Norm implements S_Norm {
+
+    @Override
+    public double evaluate(double a, double b) {
+        return Math.max(a, b);
+    }
 }

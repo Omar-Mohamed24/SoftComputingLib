@@ -1,5 +1,7 @@
 package FL.interfaces;
+import FL.FuzzySet;
+import FL.LinguisticVariable;
 
-public class DefuzzifyMethod {
-    
+public interface DefuzzifyMethod {
+    double defuzzify(LinguisticVariable outputVariable, FuzzySet aggregatedSet);
 }

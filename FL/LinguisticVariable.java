@@ -51,6 +51,14 @@ public class LinguisticVariable {
         return name;
     }
 
+    public double getMinDomain() {
+        return minDomain;
+    }
+
+    public double getMaxDomain() {
+        return maxDomain;
+    }
+
     public List<FuzzySet> getFuzzySets() {
         return fuzzySets;
     }

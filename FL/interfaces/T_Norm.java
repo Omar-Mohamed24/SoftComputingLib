@@ -1,5 +1,5 @@
 package FL.interfaces;
 
-public class T_Norm {
-    
+public interface T_Norm {
+    double evaluate(double a, double b);
 }
