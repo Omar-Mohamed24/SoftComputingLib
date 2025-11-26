@@ -52,10 +52,6 @@ public class TippingSolver {
         tip.addFuzzySet(new FuzzySet("Generous", new TriangularMF(20, 25, 30)));
         fs.addLinguisticVariable(tip);
 
-        Rule r1 = new Rule();
-        r1.addAntecedent("Service", "Poor");
-        r1.addAntecedent("Food", "Bad");
-
         // Scenario 1: Everything is bad -> Low Tip
         Rule badRule = new Rule();
         badRule.addAntecedent("Service", "Poor");
@@ -116,6 +112,6 @@ public class TippingSolver {
         Map<String, Double> outputs = fs.evaluate(inputs);
 
         System.out.println("Result:");
-        System.out.printf("  Recommended Tip: %.2f%%\n", outputs.get("Tip"));
+        System.out.printf("  Recommended Tip: %.2f%%\n", outputs.get("Tip") == null ? 0 : outputs.get("Tip"));
     }
 }

@@ -6,7 +6,7 @@ import FL.interfaces.DefuzzifyMethod;
 
 public class Centroid implements DefuzzifyMethod {
     private static final int SAMPLES = 1000;
-    private static final double EPSILON = 1e-9;
+    private static final double EPSILON = 1e-5;
 
     @Override
     public double defuzzify(LinguisticVariable outputVariable, FuzzySet aggregatedSet) {
